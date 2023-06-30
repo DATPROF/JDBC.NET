@@ -10,10 +10,7 @@ import proto.Common;
 import proto.statement.Statement;
 import proto.statement.StatementServiceGrpc;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Time;
+import java.sql.*;
 
 public class StatementServiceImpl extends StatementServiceGrpc.StatementServiceImplBase {
 
@@ -78,15 +75,16 @@ public class StatementServiceImpl extends StatementServiceGrpc.StatementServiceI
 
                 responseObserver.onNext(responseBuilder.build());
             } else {
+                var metaData = statement.getResultSet().getMetaData();
                 var resultSet = new ResultSetEx(statement.getResultSet());
-                var resultSetMetaData = resultSet.getMetaData();
+
                 var resultSetId = ObjectManager.putResultSet(resultSet);
 
                 var responseBuilder = Common.JdbcResultSetResponse.newBuilder()
                         .setResultSetId(resultSetId)
                         .setHasRows(resultSet.getHasRows());
 
-                Utils.addColumns(responseBuilder, resultSetMetaData);
+                Utils.addColumns(responseBuilder, metaData);
                 responseObserver.onNext(responseBuilder.build());
             }
 
