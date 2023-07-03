@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,8 +27,8 @@
     </ItemGroup>
 
     <Target Name="Packages" BeforeTargets="CollectPackageReferences">
-        <Message Text="OSPlatform: $(OSPlatform)" Importance="high"/>
-        <Message Text="OSArchitecture: $(OSArchitecture)" Importance="high"/>
+        <Message Text="OSPlatform: $(OSPlatform)" Importance="high" />
+        <Message Text="OSArchitecture: $(OSArchitecture)" Importance="high" />
         <Warning Text="$(WarningMessage)" Condition=" $(WarningMessage) != '' " />
         <Error Text="$(ErrorMessage)" Condition=" $(ErrorMessage) != '' " />
     </Target>

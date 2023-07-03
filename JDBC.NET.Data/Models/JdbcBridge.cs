@@ -81,7 +81,7 @@ namespace JDBC.NET.Data.Models
 
             javaRunArgs += $" -cp \"{classPaths}\" com.chequer.jdbcnet.bridge.Main -i {bridgePort.Id} -p {bridgePort.ServerPort}";
 
-            var process = JavaRuntime.Execute(javaRunArgs);
+            var process = JavaRuntime.Execute(javaRunArgs, "", true);
             process.EnableRaisingEvents = true;
             process.Exited += delegate { bridgeCTS.Cancel(); };
 

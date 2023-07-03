@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net6.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Description>It is a wrapper that allows you to use JDBC drivers in ADO.NET</Description>
-    <Authors>CHEQUER</Authors>
-    <Company>CHEQUER</Company>
+    <Authors>DATPROF</Authors>
+    <Company>DATPROF</Company>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/chequer-io/JDBC.NET</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/chequer-io/JDBC.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DATPROF/JDBC.NET</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/DATPROF/JDBC.NET</PackageProjectUrl>
     <PackageIcon>Logo.jpg</PackageIcon>
     <Version>3.5.5</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFramework>net6.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="J2NET" Version="1.3.0" />
+    <PackageReference Include="datprof.j2net" Version="1.3.1" />
     <PackageReference Include="Google.Protobuf" Version="3.22.3" />
     <PackageReference Include="Grpc" Version="2.46.6" />
     <PackageReference Include="Grpc.Tools" Version="2.54.0">
