@@ -6,10 +6,18 @@ namespace JDBC.NET.Sample
 {
     internal class Program
     {
-        private const string DriversPath = @"C:\Users\bb\projects\datprof-applications\Privacy\Privacy\bin\Debug\win-x64\Drivers";
-        private const string DriverJar = @"C:\Users\bb\projects\datprof-applications\Privacy\Privacy\bin\Debug\win-x64\Drivers\mssql-jdbc-12.4.2.jre11.jar";
+        private const string DriversPath = @"C:\DATPROF\Lib";
+        private const string DriverJar = @"C:\DATPROF\Lib\mssql-jdbc-12.4.2.jre11.jar";
         private const string DriverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        private const string JdbcUrl = "jdbc:sqlserver://dpf-sqlserver-2\\MSSQL2022:2233;integratedSecurity=true;trustServerCertificate=true";
+        private const string JdbcUrl = "jdbc:sqlserver://datprofserver.database.windows.net:1433" +
+                                       ";database=DPF_T01" +
+                                       ";encrypt=true" +
+                                       ";trustServerCertificate=false" +
+                                       ";IntegratedSecurity=false;" +
+                                       ";hostNameInCertificate=*.database.windows.net" +
+                                       ";loginTimeout=30" +
+                                       ";Authentication=ActiveDirectoryIntegrated";
+        // private const string JdbcUrl = "jdbc:sqlserver://dpf-sqlserver-2\\MSSQL2022:2233;integratedSecurity=true;trustServerCertificate=true";
         // private const string JdbcUrl = "jdbc:sqlserver://dpf-docker-1:1499;user=BB_T01;;password=BB_T01;integratedSecurity=false;trustServerCertificate=true;database=BB_T01";
 
         private static void Main(string[] args)
