@@ -80,8 +80,8 @@ namespace JDBC.NET.Data.Models
             if (Options.ConnectionProperties.TryGetValue("JAAS_CONFIG", out var jaasConfig))
                 javaRunArgs += $" -Djava.security.auth.login.config={jaasConfig}";
 
-            if (Options.LibaryPath.Length > 0)
-                javaRunArgs += $" -Djava.library.path={string.Join(GetClasspathSeparator(), Options.LibaryPath)} ";
+            if (Options.LibraryPath.Length > 0)
+                javaRunArgs += $" -Djava.library.path={string.Join(GetClasspathSeparator(), Options.LibraryPath)} ";
 
             var classPath = string.Join(GetClasspathSeparator(), ResolveJarFiles());
             javaRunArgs += $" -cp \"{classPath}\" com.chequer.jdbcnet.bridge.Main -i {bridgePort.Id} -p {bridgePort.ServerPort}";

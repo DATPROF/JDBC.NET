@@ -127,7 +127,7 @@ namespace JDBC.NET.Data
                 )
                 {
                     LibraryJarFiles = ConnectionStringBuilder.LibraryJarFiles,
-                    LibaryPath = ConnectionStringBuilder.LibaryPath,
+                    LibraryPath = ConnectionStringBuilder.LibraryPath,
                     ConnectionProperties = ConnectionProperties
                 };
 

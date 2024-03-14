@@ -24,7 +24,7 @@ namespace JDBC.NET.Sample
                 DriverPath = DriverJar,
                 DriverClass = DriverClass,
                 JdbcUrl = JdbcUrl,
-                LibaryPath = new []{DriversPath}
+                LibraryPath = new []{DriversPath}
             };
 
             try

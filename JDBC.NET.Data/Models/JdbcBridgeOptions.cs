@@ -8,7 +8,7 @@ namespace JDBC.NET.Data.Models
 
         public string[] LibraryJarFiles { get; init; }
 
-        public string[] LibaryPath { get; set; }
+        public string[] LibraryPath { get; set; }
 
         public JdbcConnectionProperties ConnectionProperties { get; init; }
 

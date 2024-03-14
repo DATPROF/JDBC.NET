@@ -63,11 +63,11 @@ namespace JDBC.NET.Data
                 SetValue(nameof(LibraryJarFiles), base64);
             }
         }
-        public string[] LibaryPath
+        public string[] LibraryPath
         {
             get
             {
-                var value = GetValue<string>(nameof(LibaryPath));
+                var value = GetValue<string>(nameof(LibraryPath));
 
                 if (string.IsNullOrEmpty(value))
                     return Array.Empty<string>();
@@ -79,14 +79,14 @@ namespace JDBC.NET.Data
             {
                 if (value is null)
                 {
-                    SetValue(nameof(LibaryPath), (string)null);
+                    SetValue(nameof(LibraryPath), (string)null);
                     return;
                 }
 
                 var bytes = SimpleSerializer.SerializeStringArray(value);
                 var base64 = Convert.ToBase64String(bytes);
 
-                SetValue(nameof(LibaryPath), base64);
+                SetValue(nameof(LibraryPath), base64);
             }
         }
         #endregion
