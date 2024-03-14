@@ -6,9 +6,11 @@ namespace JDBC.NET.Data.Models
 
         public string DriverClass { get; }
 
-        public string[] LibraryJarFiles { get; set; }
+        public string[] LibraryJarFiles { get; init; }
 
-        public JdbcConnectionProperties ConnectionProperties { get; set; }
+        public string[] LibaryPath { get; set; }
+
+        public JdbcConnectionProperties ConnectionProperties { get; init; }
 
         public JdbcBridgeOptions(string driverPath, string driverClass)
         {

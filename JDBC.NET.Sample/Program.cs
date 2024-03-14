@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using JDBC.NET.Data;
 
@@ -7,119 +6,56 @@ namespace JDBC.NET.Sample
 {
     internal class Program
     {
-        #region Constants
-        private const int tableWidth = 100;
-        private const int displayLimit = 10;
-        #endregion
-
-        #region Console Method
-        private static void PrintLine()
-        {
-            Console.WriteLine(new string('-', tableWidth));
-        }
-
-        private static string AlignCenter(string text, int width)
-        {
-            text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
-
-            return !string.IsNullOrEmpty(text)
-                ? text.PadRight(width - (width - text.Length) / 2).PadLeft(width)
-                : new string(' ', width);
-        }
-
-        private static void PrintRow(params string[] columns)
-        {
-            var width = (tableWidth - columns.Length) / columns.Length;
-            var row = "|";
-
-            foreach (var column in columns)
-            {
-                row += AlignCenter(column, width) + "|";
-            }
-
-            Console.WriteLine(row);
-        }
-        #endregion
+        private const string DriversPath = @"C:\Users\bb\projects\datprof-applications\Privacy\Privacy\bin\Debug\win-x64\Drivers";
+        private const string DriverJar = @"C:\Users\bb\projects\datprof-applications\Privacy\Privacy\bin\Debug\win-x64\Drivers\mssql-jdbc-12.4.2.jre11.jar";
+        private const string DriverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        private const string JdbcUrl = "jdbc:sqlserver://dpf-sqlserver-2\\MSSQL2022:2233;integratedSecurity=true;trustServerCertificate=true";
+        // private const string JdbcUrl = "jdbc:sqlserver://dpf-docker-1:1499;user=BB_T01;;password=BB_T01;integratedSecurity=false;trustServerCertificate=true;database=BB_T01";
 
         private static void Main(string[] args)
         {
-            Console.Write("Driver Path : ");
-            var driverPath = Console.ReadLine();
-
-            Console.Write("Driver Class : ");
-            var driverClass = Console.ReadLine();
-
-            Console.Write("JDBC Url : ");
-            var jdbcUrl = Console.ReadLine();
+            Console.WriteLine($"Driver Path : {DriverJar}");
+            Console.WriteLine($"Driver Class : {DriverClass}");
+            Console.WriteLine($"JDBC Url : {JdbcUrl}");
 
             var builder = new JdbcConnectionStringBuilder
             {
                 FetchSize = -1,
-                DriverPath = driverPath,
-                DriverClass = driverClass,
-                JdbcUrl = jdbcUrl
+                DriverPath = DriverJar,
+                DriverClass = DriverClass,
+                JdbcUrl = JdbcUrl,
+                LibaryPath = new []{DriversPath}
             };
 
-            using var connection = new JdbcConnection(builder);
-            connection.Open();
-
-            while (true)
+            try
             {
-                Console.Write("SQL > ");
+                Console.WriteLine("Connecting...");
+                using var connection = new JdbcConnection(builder);
+                connection.Open();
+                Console.WriteLine("Connection established...");
 
-                var sql = Console.ReadLine();
-
-                using var command = connection.CreateCommand(sql);
-
-                try
+                while (true)
                 {
-                    using var reader = command.ExecuteReader();
-                    PrintResult(reader);
-                }
-                catch (DbException ex)
-                {
-                    Console.WriteLine(ex.Message);
+                    Console.Write("SQL > ");
+
+                    var sql = Console.ReadLine();
+
+                    using var command = connection.CreateCommand(sql);
+
+                    try
+                    {
+                        using var reader = command.ExecuteReader();
+                        ConsoleUtils.PrintResult(reader);
+                    }
+                    catch (DbException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             }
-        }
-
-        private static void PrintResult(DbDataReader reader)
-        {
-            Console.Clear();
-            PrintLine();
-
-            var columns = new List<string>();
-
-            for (var i = 0; i < reader.FieldCount; i++)
+            catch (Exception e)
             {
-                columns.Add(reader.GetName(i));
-            }
-
-            PrintRow(columns.ToArray());
-            PrintLine();
-
-            var displayCount = 0;
-
-            while (reader.Read())
-            {
-                if (displayCount >= displayLimit)
-                {
-                    PrintRow($"Only the top {displayLimit} results were displayed.");
-                    PrintLine();
-                    break;
-                }
-
-                var items = new List<string>();
-
-                for (var i = 0; i < reader.FieldCount; i++)
-                {
-                    items.Add(reader.GetString(i));
-                }
-
-                PrintRow(items.ToArray());
-                PrintLine();
-
-                displayCount++;
+                Console.WriteLine($"Connection error: {e.Message}");
             }
         }
     }

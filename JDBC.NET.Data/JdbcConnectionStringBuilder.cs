@@ -63,6 +63,32 @@ namespace JDBC.NET.Data
                 SetValue(nameof(LibraryJarFiles), base64);
             }
         }
+        public string[] LibaryPath
+        {
+            get
+            {
+                var value = GetValue<string>(nameof(LibaryPath));
+
+                if (string.IsNullOrEmpty(value))
+                    return Array.Empty<string>();
+
+                var bytes = Convert.FromBase64String(value);
+                return SimpleSerializer.DeserializeStringArray(bytes);
+            }
+            set
+            {
+                if (value is null)
+                {
+                    SetValue(nameof(LibaryPath), (string)null);
+                    return;
+                }
+
+                var bytes = SimpleSerializer.SerializeStringArray(value);
+                var base64 = Convert.ToBase64String(bytes);
+
+                SetValue(nameof(LibaryPath), base64);
+            }
+        }
         #endregion
 
         #region Constructor

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using J2NET;
 using JDBC.NET.Proto;
@@ -70,7 +71,7 @@ namespace JDBC.NET.Data.Models
             var bridgeCTS = new CancellationTokenSource();
             using var bridgePort = JdbcBridgePortService.Create(bridgeCTS.Token);
 
-            var classPaths = string.Join(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ";" : ":", ResolveJarFiles());
+           
             var javaRunArgs = $"-XX:G1PeriodicGCInterval=5000";
 
             if (Options.ConnectionProperties.TryGetValue("KRB5_CONFIG", out var krb5Config))
@@ -79,7 +80,11 @@ namespace JDBC.NET.Data.Models
             if (Options.ConnectionProperties.TryGetValue("JAAS_CONFIG", out var jaasConfig))
                 javaRunArgs += $" -Djava.security.auth.login.config={jaasConfig}";
 
-            javaRunArgs += $" -cp \"{classPaths}\" com.chequer.jdbcnet.bridge.Main -i {bridgePort.Id} -p {bridgePort.ServerPort}";
+            if (Options.LibaryPath.Length > 0)
+                javaRunArgs += $" -Djava.library.path={string.Join(GetClasspathSeparator(), Options.LibaryPath)} ";
+
+            var classPath = string.Join(GetClasspathSeparator(), ResolveJarFiles());
+            javaRunArgs += $" -cp \"{classPath}\" com.chequer.jdbcnet.bridge.Main -i {bridgePort.Id} -p {bridgePort.ServerPort}";
 
             var process = JavaRuntime.Execute(javaRunArgs, "", true);
             process.EnableRaisingEvents = true;
@@ -120,6 +125,11 @@ namespace JDBC.NET.Data.Models
                 process.Dispose();
                 throw;
             }
+        }
+
+        private static string GetClasspathSeparator()
+        {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? ";" : ":";
         }
 
         private IEnumerable<string> ResolveJarFiles()
