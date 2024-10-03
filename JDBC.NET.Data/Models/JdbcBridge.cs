@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -134,7 +135,7 @@ namespace JDBC.NET.Data.Models
 
         private IEnumerable<string> ResolveJarFiles()
         {
-            var defaultJarFiles = new[] { jarPath, Options.DriverPath };
+            var defaultJarFiles = new[] { Path.Combine(Options.AppInstallationPath, jarPath), Options.DriverPath };
 
             IEnumerable<string> libraryJarFiles = Options.LibraryJarFiles ?? Enumerable.Empty<string>();
             return defaultJarFiles.Concat(libraryJarFiles);
