@@ -80,6 +80,9 @@ namespace JDBC.NET.Data.Models
             if (debugPort > 0)
                 javaRunArgs = $"\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address={debugPort}\"";
 
+            if (Options.DriverClass == "com.databricks.client.jdbc.Driver")
+                javaRunArgs += $" --add-opens=java.base/java.nio=org.apache.arrow.memory.core,ALL-UNNAMED";
+
             if (Options.ConnectionProperties.TryGetValue("KRB5_CONFIG", out var krb5Config))
                 javaRunArgs += $" -Djava.security.krb5.conf={krb5Config}";
 
