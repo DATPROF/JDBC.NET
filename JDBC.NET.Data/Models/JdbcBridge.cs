@@ -14,6 +14,7 @@ namespace JDBC.NET.Data.Models
 {
     internal sealed class JdbcBridge : IDisposable
     {
+
         #region Fields
         private Channel _channel;
         private Process _process;
@@ -21,6 +22,7 @@ namespace JDBC.NET.Data.Models
 
         #region Constants
         private const string host = "127.0.0.1";
+        private const string debugPortEnvironmentVariable = "DPF_JDBC_NET_BRIDGE_DEBUG_PORT";
 #if !DEBUG
         private const string jarPath = @"JDBC.NET.Bridge.jar";
 #else
@@ -71,9 +73,12 @@ namespace JDBC.NET.Data.Models
         {
             var bridgeCTS = new CancellationTokenSource();
             using var bridgePort = JdbcBridgePortService.Create(bridgeCTS.Token);
-
-           
+            
             var javaRunArgs = $"-XX:G1PeriodicGCInterval=5000";
+
+            var debugPort = DebugPort();
+            if (debugPort > 0)
+                javaRunArgs = $"\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address={debugPort}\"";
 
             if (Options.ConnectionProperties.TryGetValue("KRB5_CONFIG", out var krb5Config))
                 javaRunArgs += $" -Djava.security.krb5.conf={krb5Config}";
@@ -126,6 +131,15 @@ namespace JDBC.NET.Data.Models
                 process.Dispose();
                 throw;
             }
+        }
+
+        private int DebugPort()
+        {
+            var value = Environment.GetEnvironmentVariable(debugPortEnvironmentVariable);
+            if (int.TryParse(value, out var result))
+                return result;
+
+            return -1;
         }
 
         private static string GetClasspathSeparator()
