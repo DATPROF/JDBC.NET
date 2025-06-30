@@ -38,7 +38,7 @@ publish_nuget:
     - cd JDBC.NET.Data
     - dotnet nuget push "bin/Release/DATPROF.JDBC.NET.Data.*.nupkg" \
         --api-key "$NUGET_API_KEY" \
-        --source "$NUGET_SOURCE"
+        --source "$NEXUS_URL"
   when: manual
   tags:
     - windows  
