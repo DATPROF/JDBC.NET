@@ -6,11 +6,7 @@ stages:
 variables:
   NEXUS_URL: "https://nexus.datprof.com/repository/datprof-nuget/"
   NUGET_API_KEY: "$NuGetApiKey"
-
   VERSION: "$VERSION"
-
-before_script:
-  - echo "Using version: $VERSION"
 
 build_maven:
   stage: build
