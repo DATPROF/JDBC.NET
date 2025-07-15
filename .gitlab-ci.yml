@@ -35,7 +35,6 @@ publish_nuget:
   tags:
     - shell
   script:
-    - cd JDBC.NET.Data
     - dotnet nuget push "artifacts/DATPROF.JDBC.NET.Data.*.nupkg" \
         --api-key "$NUGET_API_KEY" \
         --source "$NEXUS_URL"
