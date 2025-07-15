@@ -6,7 +6,7 @@ stages:
 variables:
   NEXUS_URL: "https://nexus.datprof.com/repository/datprof-nuget/"
   NUGET_API_KEY: "$NuGetApiKey"
-  VERSION: "Development"
+  VERSION: "0.0.0-development"
 
 build_maven:
   stage: build
@@ -23,7 +23,7 @@ package_nuget:
   stage: package
   script:
     - cd JDBC.NET.Data
-    - dotnet pack --configuration Release -p:Version=$VERSION
+    - dotnet pack --configuration Release -p:Version=$VERSION -o "../artifacts"
   artifacts:
     paths:
       - JDBC.NET.Data/bin/Release/
@@ -36,7 +36,7 @@ publish_nuget:
     - shell
   script:
     - cd JDBC.NET.Data
-    - dotnet nuget push "bin/Release/DATPROF.JDBC.NET.Data.*.nupkg" \
+    - dotnet nuget push "artifacts/DATPROF.JDBC.NET.Data.*.nupkg" \
         --api-key "$NUGET_API_KEY" \
         --source "$NEXUS_URL"
   when: manual
