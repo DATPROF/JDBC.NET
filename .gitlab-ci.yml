@@ -4,8 +4,6 @@ stages:
   - publish
 
 variables:
-  NEXUS_URL: "https://nexus.datprof.com/repository/datprof-nuget/"
-  NUGET_API_KEY: "$env:NuGetApiKey"
   VERSION: "0.0.0-development"
 
 build_maven:
