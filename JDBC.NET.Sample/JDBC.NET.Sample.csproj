@@ -22,7 +22,7 @@
         <PackageReference Condition=" '$(OSPlatform)' == 'OSX' And '$(OSArchitecture)' == 'ARM64' " Include="J2NET.Runtime.macOS-arm64" Version="$(RuntimeVersion)" />
         <PackageReference Condition=" '$(OSPlatform)' == 'Linux' And '$(OSArchitecture)' == 'X64' " Include="J2NET.Runtime.linux-x64" Version="$(RuntimeVersion)" />
         <PackageReference Condition=" '$(OSPlatform)' == 'Linux' And '$(OSArchitecture)' == 'ARM64' " Include="J2NET.Runtime.linux-arm64" Version="$(RuntimeVersion)" />
-        <PackageReference Condition=" '$(OSPlatform)' == 'Windows' And '$(OSArchitecture)' == 'X64' " Include="J2NET.Runtime.win-x64" Version="$(RuntimeVersion)" />
+        <PackageReference Condition=" '$(OSPlatform)' == 'Windows' And '$(OSArchitecture)' == 'X64' " Include="J2NET.Runtime.win-x64" Version="1.4.1" />
         <PackageReference Condition=" '$(OSPlatform)' == 'Windows' And '$(OSArchitecture)' == 'X86' " Include="J2NET.Runtime.win-x86" Version="$(RuntimeVersion)" />
     </ItemGroup>
 
