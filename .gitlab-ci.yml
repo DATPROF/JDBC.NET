@@ -32,9 +32,8 @@ package_nuget:
     
 publish_nuget:
   stage: publish
-  tags:
-    - shell
   script:
+    - echo "Pushing JDBC.NET version $VERSION"
     - dotnet nuget push "artifacts/DATPROF.JDBC.NET.Data.$VERSION.nupkg" \
         --api-key "$NUGET_API_KEY" \
         --source "$NEXUS_URL"
